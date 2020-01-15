@@ -1,7 +1,8 @@
 import 'package:como_ta_o_tempo/screens/location_screen.dart';
+import 'package:como_ta_o_tempo/services/location.dart';
 import 'package:como_ta_o_tempo/utilities/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -9,11 +10,20 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-
   void getLocation() async {
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    print(position);
+    Location location = Location();
+    await location.getCurrentLocation();
+    print(location.latitude);
+    print(location.longitude);
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +42,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 height: 20.0,
               ),
               Text(
-                'Para comecar, precisa ativar  a sua localizacao para poder ver as previsoes de tempo',
+                'Aqui voce vai ver as previsoes de tempo e saber qual roupa usar',
                 style: kSubtitleText,
               ),
               SizedBox(
@@ -42,10 +52,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 padding: EdgeInsets.only(
                     top: 16, bottom: 16.0, left: 32.0, right: 32.0),
                 onPressed: () {
-                  getLocation();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LocationScreen(),
+                      ));
                 },
                 child: Text(
-                  'Get my location',
+                  'Get started',
                   style: kButtonText,
                 ),
               )
