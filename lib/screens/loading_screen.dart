@@ -1,10 +1,9 @@
 import 'package:como_ta_o_tempo/screens/location_screen.dart';
-import 'package:como_ta_o_tempo/services/location.dart';
-import 'package:como_ta_o_tempo/services/networking.dart';
+import 'package:como_ta_o_tempo/services/weather.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-const apiKey = '6d43f25bb43d349df6086c7e2078ef19';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -22,18 +21,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getLocationData() async {
-    Location location = Location();
-    await location.getCurrentLocation();
 
-    NetworkingHelper networkingHelper = NetworkingHelper(
-        'https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
-    var weatherData = await networkingHelper.getData();
-
+    var weatherData = await WeatherModel().getLocationWeather();
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => LocationScreen(
-          locationWeather: weatherData,
+          locationWeather: weatherData,//param of the weather location
         ),
       ),
     );

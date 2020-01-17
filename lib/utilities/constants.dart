@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 
 const kSubtitleText = TextStyle(
@@ -36,4 +37,12 @@ const kButtonTextStyle = TextStyle(
 
 const kConditionTextStyle = TextStyle(
   fontSize: 80.0,
+);
+
+
+const kTextFieldDecoraton = InputDecoration(
+    filled: true,
+    fillColor: Color(0xFFD7D7D7),
+    icon: Icon(Icons.search),
+    hintText: 'Enter city name'
 );
